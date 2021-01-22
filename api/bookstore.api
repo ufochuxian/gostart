@@ -1,0 +1,36 @@
+// 1. 使用goctl，生成api文件
+// 2. 使用goctl，生成api gateway代码
+
+//request
+
+type (
+	addReq {
+		Book  string `form:"book"`
+		Price int64  `form:"price"`
+	}
+
+	addResp {
+		Ok bool `json:"ok"`
+	}
+)
+
+type (
+	checkReq {
+		Book string `form:"book"`
+	}
+	checkResp {
+		Found bool  `json:"found"`
+		Price int64 `json:"price"`
+	}
+)
+
+// service 用来定义get/post/head/delete等api请求
+//@handler定义了服务端handler名字
+// get /add(addReq) returns(addResp)定义了get方法的路由、请求参数、返回参数等
+service bookstore-api {
+	@handler AddHandler
+	get /add(addReq) returns (addResp)
+	
+	@handler CheckHandler
+	get /check (checkReq) returns (checkResp)
+}
